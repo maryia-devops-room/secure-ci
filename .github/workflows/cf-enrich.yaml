@@ -48,6 +48,6 @@ jobs:
           CF_REGISTRY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
           CF_REGISTRY_DOMAIN: 'quay.io'
 
-          CF_GIT_BRANCH: '${{ github.ref }}'
+          CF_GIT_BRANCH: '${{ github.ref_name }}'
           CF_GIT_REPO: '${{ github.repository }}'
         uses: codefresh-io/codefresh-report-image@latest
