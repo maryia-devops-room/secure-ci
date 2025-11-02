@@ -21,7 +21,7 @@ jobs:
           password: ${{ secrets.QUAY_PASSWORD }}
       - name: Build & push the Docker image
         env:
-          CF_IMAGE: ${{ secrets.QUAY_USERNAME }}/pastr:1.1.1
+          CF_IMAGE: quay.io/${{ secrets.QUAY_USERNAME }}/pastr:1.1.1
         run: |
           docker build . --file Dockerfile --tag $CF_IMAGE && docker push $CF_IMAGE
           echo "Image should be accessible to your local machine (after docker login) by:"
