@@ -4,7 +4,7 @@ on:
     branches: [ test-enrichment-step ]   # Only run PRs targeting this branch
   push:
     tags: [ '*' ]                     # Run on any tag push
-    branches: [ test-enrichment-step ]
+    # branches: [ test-enrichment-step ]
 jobs:
   build:
     environment:
@@ -22,7 +22,7 @@ jobs:
           password: ${{ secrets.QUAY_PASSWORD }}
       - name: Build & push the Docker image
         env:
-          CF_IMAGE: quay.io/${{ secrets.QUAY_USERNAME }}/pastr:1.1.3
+          CF_IMAGE: quay.io/${{ secrets.QUAY_USERNAME }}/pastr:1.1.4
         run: |
           docker build . --file Dockerfile --tag $CF_IMAGE && docker push $CF_IMAGE
           echo "Image should be accessible to your local machine (after docker login) by:"
@@ -38,7 +38,7 @@ jobs:
 
 
           # report image generated in previous step
-          CF_IMAGE: ${{ secrets.QUAY_USERNAME }}/pastr:1.1.3
+          CF_IMAGE: ${{ secrets.QUAY_USERNAME }}/pastr:1.1.4
         
           # use github token
           CF_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
