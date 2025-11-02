@@ -1,0 +1,54 @@
+name: Docker Image CI
+
+
+on:
+  pull_request:
+    branches: [ test-enrichment-step ]   # Only run PRs targeting this branch
+  push:
+    tags: [ '*' ]                     # Run on any tag push
+jobs:
+  build:
+    environment:
+      name: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Login to Quay.io
+        uses: docker/login-action@v2
+        with:
+          # generic docker login action using quay.io
+          registry: quay.io
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_USERNAME }}
+      - name: Build & push the Docker image
+        env:
+          CF_IMAGE: ${{ secrets.QUAY_USERNAME }}/pastr:1.1.1
+        run: |
+          docker build . --file Dockerfile --tag $CF_IMAGE && docker push $CF_IMAGE
+          echo "Image should be accessible to your local machine (after docker login) by:"
+          echo "docker pull $CF_IMAGE"
+          docker pull $CF_IMAGE
+          echo "On the next step, the report image would use the integration to pull information on the reported image, and using the specified enrichers."
+      - name: report image by action
+        with:
+          # Name of runtime to implement the enrichment
+          CF_RUNTIME_NAME: 'codefresh-minikube'
+        
+          CF_API_KEY: "${{ secrets.CF_API_KEY }}"
+
+
+          # report image generated in previous step
+          CF_IMAGE: ${{ secrets.QUAY_USERNAME }}/pastr:1.1.1
+        
+          # use github token
+          CF_GITHUB_TOKEN: ${{ secrets.CF_GITHUB_TOKEN }} #automatically generated one 
+          CF_GITHUB_API_HOST_URL: 'https://api.github.com/'
+
+          # Docker Registry
+          CF_REGISTRY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+          CF_REGISTRY_PASSWORD: ${{ secrets.QUAY_USERNAME }}
+          CF_REGISTRY_DOMAIN: 'quay.io'
+
+          CF_GIT_BRANCH: '${{ github.ref }}'
+        uses: codefresh-io/codefresh-report-image@latest
