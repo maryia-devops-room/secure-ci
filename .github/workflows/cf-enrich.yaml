@@ -40,7 +40,7 @@ jobs:
           CF_IMAGE: ${{ secrets.QUAY_USERNAME }}/pastr:1.1.1
         
           # use github token
-          CF_GITHUB_TOKEN: ${{ secrets.CF_GITHUB_TOKEN }} #automatically generated one 
+          CF_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CF_GITHUB_API_HOST_URL: 'https://api.github.com/'
 
           # Docker Registry
