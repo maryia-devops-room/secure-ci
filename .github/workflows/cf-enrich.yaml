@@ -21,7 +21,7 @@ jobs:
           password: ${{ secrets.QUAY_PASSWORD }}
       - name: Build & push the Docker image
         env:
-          CF_IMAGE: quay.io/${{ secrets.QUAY_USERNAME }}/pastr:1.1.1
+          CF_IMAGE: quay.io/${{ secrets.QUAY_USERNAME }}/pastr:1.1.2
         run: |
           docker build . --file Dockerfile --tag $CF_IMAGE && docker push $CF_IMAGE
           echo "Image should be accessible to your local machine (after docker login) by:"
@@ -37,7 +37,7 @@ jobs:
 
 
           # report image generated in previous step
-          CF_IMAGE: ${{ secrets.QUAY_USERNAME }}/pastr:1.1.1
+          CF_IMAGE: ${{ secrets.QUAY_USERNAME }}/pastr:1.1.2
         
           # use github token
           CF_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -49,4 +49,5 @@ jobs:
           CF_REGISTRY_DOMAIN: 'quay.io'
 
           CF_GIT_BRANCH: '${{ github.ref }}'
+          CF_GIT_REPO: '${{ github.repository }}'
         uses: codefresh-io/codefresh-report-image@latest
