@@ -1,6 +1,4 @@
 name: Docker Image CI
-
-
 on:
   pull_request:
     branches: [ test-enrichment-step ]   # Only run PRs targeting this branch
