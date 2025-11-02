@@ -22,7 +22,7 @@ jobs:
           password: ${{ secrets.QUAY_PASSWORD }}
       - name: Build & push the Docker image
         env:
-          CF_IMAGE: quay.io/${{ secrets.QUAY_USERNAME }}/pastr:1.1.4
+          CF_IMAGE: quay.io/${{ secrets.QUAY_USERNAME }}/pastr:1.1.5
         run: |
           docker build . --file Dockerfile --tag $CF_IMAGE && docker push $CF_IMAGE
           echo "Image should be accessible to your local machine (after docker login) by:"
@@ -44,7 +44,7 @@ jobs:
 
 
           # report image generated in previous step
-          CF_IMAGE: ${{ secrets.QUAY_USERNAME }}/pastr:1.1.4
+          CF_IMAGE: ${{ secrets.QUAY_USERNAME }}/pastr:1.1.5
         
           # use github token
           CF_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
