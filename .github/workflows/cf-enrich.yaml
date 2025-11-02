@@ -4,6 +4,7 @@ on:
     branches: [ test-enrichment-step ]   # Only run PRs targeting this branch
   push:
     tags: [ '*' ]                     # Run on any tag push
+    branches: [ test-enrichment-step ]
 jobs:
   build:
     environment:
@@ -48,6 +49,6 @@ jobs:
           CF_REGISTRY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
           CF_REGISTRY_DOMAIN: 'quay.io'
 
-          CF_GIT_BRANCH: 'test'
+          CF_GIT_BRANCH: '${{ github.ref }}'
           CF_GIT_REPO: '${{ github.repository }}'
         uses: codefresh-io/codefresh-report-image@latest
