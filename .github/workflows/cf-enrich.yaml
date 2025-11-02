@@ -22,7 +22,7 @@ jobs:
           password: ${{ secrets.QUAY_PASSWORD }}
       - name: Build & push the Docker image
         env:
-          CF_IMAGE: quay.io/${{ secrets.QUAY_USERNAME }}/pastr:1.1.5
+          CF_IMAGE: quay.io/${{ secrets.QUAY_USERNAME }}/pastr:1.1.6
         run: |
           docker build . --file Dockerfile --tag $CF_IMAGE && docker push $CF_IMAGE
           echo "Image should be accessible to your local machine (after docker login) by:"
@@ -33,7 +33,11 @@ jobs:
         shell: bash
         id: define-branch
         run: |
-            echo "branch=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+            if [ -n "${{ github.head_ref }}" ]; then
+              echo "branch=${{ github.head_ref }}" >> $GITHUB_OUTPUT
+            else
+              echo "branch=main" >> $GITHUB_OUTPUT
+            fi
       - name: report image by action
         with:
           # Name of runtime to implement the enrichment
@@ -43,7 +47,7 @@ jobs:
 
 
           # report image generated in previous step
-          CF_IMAGE: ${{ secrets.QUAY_USERNAME }}/pastr:1.1.5
+          CF_IMAGE: ${{ secrets.QUAY_USERNAME }}/pastr:1.1.6
         
           # use github token
           CF_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
