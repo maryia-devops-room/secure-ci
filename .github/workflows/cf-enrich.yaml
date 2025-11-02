@@ -29,6 +29,12 @@ jobs:
           echo "docker pull $CF_IMAGE"
           docker pull $CF_IMAGE
           echo "On the next step, the report image would use the integration to pull information on the reported image, and using the specified enrichers."
+          - name: Define branch name
+      - name: define
+        shell: bash
+        id: define-branch
+        run: |
+            echo "branch=${{ github.ref_name }}" >> $GITHUB_OUTPUT
       - name: report image by action
         with:
           # Name of runtime to implement the enrichment
@@ -49,6 +55,6 @@ jobs:
           CF_REGISTRY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
           CF_REGISTRY_DOMAIN: 'quay.io'
 
-          CF_GIT_BRANCH: '${{ github.ref }}'
+          CF_GIT_BRANCH: '${{ steps.define-branch.outputs.branch }}'
           CF_GIT_REPO: '${{ github.repository }}'
         uses: codefresh-io/codefresh-report-image@latest
