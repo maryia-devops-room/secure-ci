@@ -29,7 +29,6 @@ jobs:
           echo "docker pull $CF_IMAGE"
           docker pull $CF_IMAGE
           echo "On the next step, the report image would use the integration to pull information on the reported image, and using the specified enrichers."
-          - name: Define branch name
       - name: define
         shell: bash
         id: define-branch
