@@ -20,7 +20,7 @@ jobs:
           # generic docker login action using quay.io
           registry: quay.io
           username: ${{ secrets.QUAY_USERNAME }}
-          password: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_PASSWORD }}
       - name: Build & push the Docker image
         env:
           CF_IMAGE: ${{ secrets.QUAY_USERNAME }}/pastr:1.1.1
@@ -47,7 +47,7 @@ jobs:
 
           # Docker Registry
           CF_REGISTRY_USERNAME: ${{ secrets.QUAY_USERNAME }}
-          CF_REGISTRY_PASSWORD: ${{ secrets.QUAY_USERNAME }}
+          CF_REGISTRY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
           CF_REGISTRY_DOMAIN: 'quay.io'
 
           CF_GIT_BRANCH: '${{ github.ref }}'
